@@ -2,7 +2,6 @@ package setup
 
 import (
 	"fmt"
-	"log"
 	"math/rand"
 )
 
@@ -99,25 +98,34 @@ func InputNo() [3]int {
 }
 
 //CompareNo of random number and user input number
-func CompareNo(no, inputNo [3]int) bool {
-	// strikes := 0
-	// balls := 0
-	// return Result{strikes, balls}
-	return true
+func CompareNo(no, inputNo [3]int) Result {
+	strikes := 0
+	balls := 0
+
+	for i := 0; i < 3; i++ {
+		for j := 0; j < 3; j++ {
+			if no[i] == inputNo[j] {
+				if i == j {
+					strikes++
+				} else {
+					balls++
+				}
+				break
+			}
+		}
+	}
+
+	//fmt.Println(strikes)
+	//fmt.Println(balls)
+	return Result{strikes, balls}
 }
 
 //ShowResult of the game
-func ShowResult(result bool) {
-	fmt.Println(result)
+func ShowResult(result Result) {
+	fmt.Printf("%dS %dB\n", result.strikes, result.balls)
 }
 
 //EndGame shows the turn it took to finish
-func EndGame(result bool) bool {
-	return true
-}
-
-func checkErr(err error) {
-	if err != nil {
-		log.Fatal(err)
-	}
+func EndGame(result Result) bool {
+	return result.strikes == 3
 }
